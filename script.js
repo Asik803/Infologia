@@ -2,44 +2,61 @@
    1. СЛАЙДЕР ПРЕПОДАВАТЕЛЕЙ (ФОТО НА ВСЮ КАРТОЧКУ)
    ═══════════════════════════════════════════════════════ */
 const teachersData = [
-  { photo: "teacher1.jpg" }, // Фотография со вшитым текстом для 1-го учителя
-  { photo: "teacher2.jpg" }, // Для 2-го учителя
-  { photo: "teacher3.jpg" }  // Для 3-го учителя
+  { photo: "teacher1.jpg", name: "Асель Нурланова",  role: "Информатика · 7 лет опыта" },
+  { photo: "teacher2.jpg", name: "Данияр Сейткали",  role: "Программирование · 5 лет опыта" },
+  { photo: "teacher3.jpg", name: "Мадина Ахметова",  role: "Методист · Куратор" }
 ];
 
 let currentIdx = 0;
 const totalTeachers = teachersData.length;
 
-const tsTrack = document.getElementById('tsTrack');
-const tsPhotoCard = document.querySelector('.ts-photo-card'); // Сама карточка для эффекта pop
-const tsAvatarImg = document.getElementById('tsAvatarImg');     // Тег картинки
-const dots = document.querySelectorAll('.ts-dot');
+const tsTrack       = document.getElementById('tsTrack');
+const tsPhotoCard   = document.querySelector('.ts-photo-card');
+const tsAvatarImg   = document.getElementById('tsAvatarImg');
+const tsOverlayName = document.getElementById('tsOverlayName');
+const tsOverlayRole = document.getElementById('tsOverlayRole');
+const dots          = document.querySelectorAll('.ts-dot');
 
 function updateTeacherCard(index) {
-  // Легкая анимация карточки при переключении
+  const t = teachersData[index];
+
+  /* Анимация карточки */
   if (tsPhotoCard) {
     tsPhotoCard.classList.add('pop');
     setTimeout(() => tsPhotoCard.classList.remove('pop'), 400);
   }
 
-  // Просто меняем фоновую картинку
+  /* Fade-swap фото */
   if (tsAvatarImg) {
-    tsAvatarImg.src = teachersData[index].photo;
+    tsAvatarImg.style.opacity = '0';
+    tsAvatarImg.style.transition = 'opacity 0.3s';
+    setTimeout(() => {
+      tsAvatarImg.src = t.photo;
+      tsAvatarImg.style.opacity = '1';
+    }, 200);
   }
 
-  // Сдвиг текстового описания, которое находится справа
+  /* Обновляем имя и роль */
+  if (tsOverlayName) {
+    tsOverlayName.style.opacity = '0';
+    tsOverlayRole.style.opacity  = '0';
+    setTimeout(() => {
+      tsOverlayName.textContent = t.name;
+      tsOverlayRole.textContent  = t.role;
+      tsOverlayName.style.transition = 'opacity 0.4s';
+      tsOverlayRole.style.transition  = 'opacity 0.4s';
+      tsOverlayName.style.opacity = '1';
+      tsOverlayRole.style.opacity  = '1';
+    }, 250);
+  }
+
+  /* Сдвиг правой панели */
   if (tsTrack) {
     tsTrack.style.transform = `translateX(-${index * 33.333}%)`;
   }
 
-  // Обновление активной точки
-  dots.forEach((dot, idx) => {
-    if (idx === index) {
-      dot.classList.add('active');
-    } else {
-      dot.classList.remove('active');
-    }
-  });
+  /* Точки */
+  dots.forEach((dot, idx) => dot.classList.toggle('active', idx === index));
 }
 
 function nextTeacher() {
@@ -56,6 +73,9 @@ function goTo(index) {
   currentIdx = index;
   updateTeacherCard(currentIdx);
 }
+
+/* Автопереключение */
+setInterval(nextTeacher, 20000);
 
 
 /* ═══════════════════════════════════════════════════════
@@ -96,3 +116,20 @@ function initConveyor() {
 window.addEventListener('DOMContentLoaded', () => {
   initConveyor();
 });
+
+/* ═══════════════════════════════════════════════════════
+   3. МОБИЛЬНОЕ МЕНЮ (ГАМБУРГЕР)
+   ═══════════════════════════════════════════════════════ */
+function toggleMenu() {
+  const burger = document.getElementById('navBurger');
+  const links  = document.getElementById('navLinks');
+  burger.classList.toggle('open');
+  links.classList.toggle('open');
+}
+
+function closeMenu() {
+  const burger = document.getElementById('navBurger');
+  const links  = document.getElementById('navLinks');
+  burger.classList.remove('open');
+  links.classList.remove('open');
+}
