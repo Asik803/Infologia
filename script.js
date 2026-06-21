@@ -62,7 +62,7 @@ function goTo(index) {
    2. БЕСКОНЕЧНЫЙ КОНВЕЙЕР УЧЕНИКОВ (ФОТО НА ВСЮ КАРТОЧКУ)
    ═══════════════════════════════════════════════════════ */
 const studentsList = [
-  { photo: "student1.jpg", score: 135 }, // Имя и год выпуска уже внутри картинки
+  { photo: "student1.jpg", score: 140 }, // Имя и год выпуска уже внутри картинки
   { photo: "student2.jpg", score: 140 },
   { photo: "student3.jpg", score: 138 },
   { photo: "student4.jpg", score: 129 },
