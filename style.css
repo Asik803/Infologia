@@ -374,8 +374,6 @@ section { padding: 90px 5%; }
 .conveyor-wrap::after {
   content: ''; position: absolute; top: 0; bottom: 0; width: 120px; z-index: 2; pointer-events: none;
 }
-.conveyor-wrap::before { left: 0; background: linear-gradient(to right, #DDE3EF, transparent); }
-.conveyor-wrap::after  { right: 0; background: linear-gradient(to left, #DDE3EF, transparent); }
 
 .conveyor-row { display: flex; gap: 1.5rem; margin-bottom: 1.5rem; width: max-content; }
 .conveyor-row-1 { animation: scrollLeft 60s linear infinite; }
