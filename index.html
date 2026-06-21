@@ -1,921 +1,274 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Infologia — Курс информатики для ЕНТ</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-<style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-  :root {
-    --blue-deep: #1E3A8A;
-    --blue-main: #1A56DB;
-    --blue-mid: #3B82F6;
-    --blue-light: #BFDBFE;
-    --blue-pale: #EFF6FF;
-    --white: #FFFFFF;
-    --gray-text: #374151;
-    --gray-light: #F9FAFB;
-    --gray-mid: #6B7280;
-  }
-
-  :root {
-    --blue-deep: #1E3A8A;
-    --blue-main: #1A56DB;
-    --blue-mid: #3B82F6;
-    --blue-light: #BFDBFE;
-    --blue-pale: #EFF6FF;
-    --white: #FFFFFF;
-    --gray-text: #374151;
-    --gray-light: #E2E8F2;
-    --gray-mid: #6B7280;
-    --bg: #E8EDF5;
-  }
-
-  html { scroll-behavior: smooth; }
-
-  body {
-    font-family: 'Inter', sans-serif;
-    color: var(--gray-text);
-    background: var(--bg);
-    overflow-x: hidden;
-  }
-
-  /* ───── NAV ───── */
-  nav {
-    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-    background: #1A3272;
-    border-bottom: 1px solid rgba(255,255,255,0.08);
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 0 5%;
-    height: 64px;
-  }
-  .nav-logo {
-    font-size: 1.5rem; font-weight: 900; color: #FFFFFF;
-    letter-spacing: -0.5px;
-  }
-  .nav-logo span { color: #93C5FD; }
-  .nav-links { display: flex; gap: 2rem; list-style: none; }
-  .nav-links a {
-    text-decoration: none; color: rgba(255,255,255,0.75);
-    font-size: 0.9rem; font-weight: 500;
-    transition: color 0.2s;
-  }
-  .nav-links a:hover { color: #FFFFFF; }
-  .nav-cta {
-    background: #FFFFFF; color: var(--blue-deep);
-    border: none; border-radius: 8px;
-    padding: 0.5rem 1.2rem; font-size: 0.9rem; font-weight: 700;
-    cursor: pointer; transition: background 0.2s, transform 0.2s; text-decoration: none;
-  }
-  .nav-cta:hover { background: #DBEAFE; transform: translateY(-1px); }
-
-  /* ───── HERO ───── */
-  .hero {
-    min-height: 100vh;
-    background: linear-gradient(135deg, var(--blue-deep) 0%, var(--blue-main) 60%, #2563EB 100%);
-    display: flex; align-items: center; justify-content: center;
-    padding: 80px 5% 60px;
-    position: relative; overflow: hidden;
-  }
-  .hero::before {
-    content: '';
-    position: absolute; inset: 0;
-    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-  }
-  .hero-inner {
-    position: relative; z-index: 1;
-    display: grid; grid-template-columns: 1fr 1fr;
-    gap: 4rem; align-items: center; max-width: 1100px; width: 100%;
-  }
-  .hero-badge {
-    display: inline-flex; align-items: center; gap: 0.5rem;
-    background: rgba(255,255,255,0.15);
-    border: 1px solid rgba(255,255,255,0.25);
-    border-radius: 100px;
-    padding: 0.35rem 1rem; font-size: 0.8rem; font-weight: 600;
-    color: var(--blue-light); margin-bottom: 1.2rem;
-  }
-  .hero-badge-dot { width: 8px; height: 8px; background: #4ADE80; border-radius: 50%; animation: pulse 2s infinite; }
-  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
-  .hero h1 {
-    font-size: clamp(2.2rem, 5vw, 3.6rem);
-    font-weight: 900; color: var(--white);
-    line-height: 1.1; letter-spacing: -1px;
-    margin-bottom: 1.2rem;
-  }
-  .hero h1 em { font-style: normal; color: var(--blue-light); }
-  .hero-sub {
-    color: rgba(255,255,255,0.8); font-size: 1.1rem;
-    line-height: 1.7; margin-bottom: 2rem; max-width: 480px;
-  }
-  .hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; }
-  .btn-primary {
-    background: var(--white); color: var(--blue-deep);
-    padding: 0.9rem 2rem; border-radius: 10px;
-    font-weight: 700; font-size: 1rem; text-decoration: none;
-    transition: transform 0.2s, box-shadow 0.2s;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
-    display: inline-flex; align-items: center; gap: 0.5rem;
-  }
-  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,0,0,0.2); }
-  .btn-outline {
-    border: 2px solid rgba(255,255,255,0.5); color: var(--white);
-    padding: 0.9rem 2rem; border-radius: 10px;
-    font-weight: 600; font-size: 1rem; text-decoration: none;
-    transition: background 0.2s; display: inline-flex; align-items: center; gap: 0.5rem;
-  }
-  .btn-outline:hover { background: rgba(255,255,255,0.1); }
-
-  /* Code Window */
-  .code-window {
-    background: #0F172A; border-radius: 16px;
-    overflow: hidden; box-shadow: 0 25px 60px rgba(0,0,0,0.4);
-    font-size: 0.85rem;
-  }
-  .code-bar {
-    background: #1E293B; padding: 0.8rem 1rem;
-    display: flex; align-items: center; gap: 0.5rem;
-  }
-  .code-dot { width: 12px; height: 12px; border-radius: 50%; }
-  .code-dot.r { background: #FF5F57; }
-  .code-dot.y { background: #FEBC2E; }
-  .code-dot.g { background: #28C840; }
-  .code-bar-title { color: #64748B; font-size: 0.75rem; margin-left: auto; font-family: monospace; }
-  .code-body { padding: 1.5rem; font-family: 'Courier New', monospace; line-height: 1.8; }
-  .c-kw { color: #C792EA; }
-  .c-fn { color: #82AAFF; }
-  .c-str { color: #C3E88D; }
-  .c-num { color: #F78C6C; }
-  .c-cm { color: #546E7A; }
-  .c-var { color: #EEFFFF; }
-  .c-op { color: #89DDFF; }
-
-  /* ───── STATS ───── */
-  .stats-bar {
-    background: linear-gradient(135deg, #EFF6FF 0%, #DBEAFE 50%, #EDE9FE 100%);
-    padding: 2.5rem 5%;
-    display: flex; justify-content: center; gap: 4rem; flex-wrap: wrap;
-    border-bottom: 1px solid var(--blue-light);
-  }
-  .stat { text-align: center; }
-  .stat-num {
-    font-size: 2.2rem; font-weight: 900; line-height: 1;
-    background: linear-gradient(135deg, var(--blue-main), #7C3AED);
-    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-  }
-  .stat-label { font-size: 0.85rem; color: var(--gray-mid); margin-top: 0.3rem; font-weight: 500; }
-
-  /* ───── SECTIONS ───── */
-  section { padding: 90px 5%; }
-  .section-label {
-    text-transform: uppercase; letter-spacing: 2px;
-    font-size: 0.75rem; font-weight: 700; color: var(--blue-main);
-    margin-bottom: 0.7rem;
-  }
-  .section-title {
-    font-size: clamp(1.8rem, 3.5vw, 2.8rem);
-    font-weight: 900;
-    background: linear-gradient(135deg, var(--blue-deep) 0%, var(--blue-main) 60%, #7C3AED 100%);
-    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-    line-height: 1.2; letter-spacing: -0.5px;
-    margin-bottom: 1rem;
-  }
-  /* White override for dark backgrounds */
-  .teachers-bg .section-title,
-  .cta-section .section-title {
-    background: none; -webkit-text-fill-color: var(--white);
-  }
-  .section-desc {
-    font-size: 1.05rem; color: var(--gray-mid); max-width: 560px; line-height: 1.7;
-  }
-  .center { text-align: center; }
-  .center .section-desc { margin: 0 auto; }
-
-  /* ───── ABOUT ───── */
-  .about-section { background: var(--bg); }
-  .about-list { margin-top: 4rem; display: flex; flex-direction: column; gap: 0; }
-
-  .about-item {
-    display: flex; align-items: flex-start; gap: 2.5rem;
-    padding: 2.8rem 0;
-    position: relative;
-  }
-  .about-item:not(:last-child)::after {
-    content: '';
-    position: absolute; bottom: 0; left: 72px; right: 0;
-    height: 1px;
-    background: linear-gradient(to right, var(--blue-light), transparent);
-  }
-  .about-item:nth-child(even) { flex-direction: row-reverse; text-align: right; }
-  .about-item:nth-child(even)::after { left: 0; right: 72px; background: linear-gradient(to left, var(--blue-light), transparent); }
-
-  .about-num {
-    flex-shrink: 0; width: 56px; height: 56px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, var(--blue-main), var(--blue-deep));
-    color: var(--white); font-size: 1.1rem; font-weight: 900;
-    display: flex; align-items: center; justify-content: center;
-    box-shadow: 0 6px 20px rgba(26,86,219,0.3);
-    position: relative; z-index: 1;
-  }
-  .about-num-alt {
-    background: linear-gradient(135deg, #7C3AED, #1A56DB);
-  }
-  .about-num-alt2 {
-    background: linear-gradient(135deg, #059669, #0891B2);
-  }
-
-  .about-body { flex: 1; }
-  .about-emoji { font-size: 2rem; margin-bottom: 0.6rem; line-height: 1; }
-  .about-body h3 {
-    font-size: 1.35rem; font-weight: 800; color: var(--blue-deep);
-    margin-bottom: 0.5rem; letter-spacing: -0.3px;
-  }
-  .about-body p {
-    font-size: 1rem; color: var(--gray-mid); line-height: 1.75; max-width: 520px;
-  }
-  .about-item:nth-child(even) .about-body p { margin-left: auto; }
-
-  /* ───── TEACHERS SLIDER ───── */
-  .teachers-bg { background: var(--blue-deep); overflow: hidden; }
-  .teachers-bg .section-label { color: var(--blue-light); }
-  .teachers-bg .section-title { color: var(--white); }
-  .teachers-bg .section-desc { color: rgba(255,255,255,0.65); }
-
-  .teacher-slider {
-    display: flex; align-items: stretch;
-    margin-top: 3.5rem; position: relative;
-    min-height: 420px; overflow: hidden; border-radius: 24px;
-  }
-
-  /* LEFT — photo card */
-  .ts-photo-wrap {
-    flex: 0 0 320px; position: relative; z-index: 2;
-  }
-  .ts-photo-card {
-    background: linear-gradient(160deg, #1A56DB 0%, #1E3A8A 100%);
-    border-radius: 24px; border: 1px solid rgba(255,255,255,0.15);
-    height: 100%; display: flex; flex-direction: column;
-    align-items: center; justify-content: center; padding: 2.5rem 2rem;
-    box-shadow: 8px 0 40px rgba(0,0,0,0.3);
-    text-align: center;
-  }
-  .ts-avatar {
-    width: 130px; height: 130px; border-radius: 50%;
-    background: linear-gradient(135deg, #60A5FA, #BFDBFE);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 3.5rem; font-weight: 900; color: var(--blue-deep);
-    border: 4px solid rgba(255,255,255,0.25);
-    margin-bottom: 1.5rem;
-    transition: transform 0.5s cubic-bezier(0.34,1.56,0.64,1);
-  }
-  .ts-avatar.pop { transform: scale(1.08); }
-  .ts-name {
-    font-size: 1.3rem; font-weight: 900; color: var(--white);
-    margin-bottom: 0.4rem; line-height: 1.2;
-  }
-  .ts-role {
-    font-size: 0.8rem; font-weight: 600;
-    color: var(--blue-light); letter-spacing: 0.5px;
-  }
-
-  /* Dots */
-  .ts-dots {
-    display: flex; gap: 0.5rem; margin-top: 1.8rem; justify-content: center;
-  }
-  .ts-dot {
-    width: 8px; height: 8px; border-radius: 50%;
-    background: rgba(255,255,255,0.25); cursor: pointer;
-    transition: background 0.3s, transform 0.3s;
-  }
-  .ts-dot.active { background: var(--white); transform: scale(1.3); }
-
-  /* RIGHT — info panel */
-  .ts-info-wrap {
-    flex: 1; overflow: hidden; position: relative;
-  }
-  .ts-info-track {
-    display: flex; width: 300%;
-    transition: transform 0.6s cubic-bezier(0.77,0,0.18,1);
-    height: 100%;
-  }
-  .ts-info-panel {
-    flex: 0 0 33.333%; padding: 3rem 3rem 3rem 3.5rem;
-    display: flex; flex-direction: column; justify-content: center;
-  }
-  .ts-exp-label {
-    font-size: 0.72rem; font-weight: 700; text-transform: uppercase;
-    letter-spacing: 2px; color: var(--blue-light); margin-bottom: 1.2rem;
-  }
-  .ts-bio {
-    font-size: 1rem; color: rgba(255,255,255,0.85);
-    line-height: 1.8; margin-bottom: 2rem;
-  }
-  .ts-stats { display: flex; gap: 2rem; margin-bottom: 2rem; flex-wrap: wrap; }
-  .ts-stat-item { }
-  .ts-stat-num { font-size: 1.8rem; font-weight: 900; color: var(--white); line-height: 1; }
-  .ts-stat-lbl { font-size: 0.75rem; color: rgba(255,255,255,0.5); margin-top: 0.2rem; font-weight: 500; }
-  .ts-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
-  .tag {
-    background: rgba(255,255,255,0.1); color: var(--blue-light);
-    font-size: 0.75rem; font-weight: 600; padding: 0.3rem 0.9rem;
-    border-radius: 100px; border: 1px solid rgba(255,255,255,0.15);
-  }
-
-  /* Nav arrows */
-  .ts-arrows {
-    position: absolute; bottom: 2rem; right: 2rem;
-    display: flex; gap: 0.7rem; z-index: 5;
-  }
-  .ts-arrow {
-    width: 44px; height: 44px; border-radius: 50%;
-    background: rgba(255,255,255,0.1);
-    border: 1px solid rgba(255,255,255,0.2);
-    color: var(--white); font-size: 1.1rem;
-    display: flex; align-items: center; justify-content: center;
-    cursor: pointer; transition: background 0.2s, transform 0.2s;
-  }
-  .ts-arrow:hover { background: rgba(255,255,255,0.2); transform: scale(1.1); }
-
-  @media (max-width: 768px) {
-    .teacher-slider { flex-direction: column; min-height: unset; }
-    .ts-photo-wrap { flex: 0 0 auto; }
-    .ts-info-track { width: 300%; }
-    .ts-info-panel { padding: 2rem 1.5rem; }
-    .ts-arrows { bottom: 1rem; right: 1rem; }
-  }
-
-  /* ───── STUDENTS CONVEYOR ───── */
-  .students-section { padding: 90px 0; background: #DDE3EF; overflow: hidden; }
-  .students-section .center { padding: 0 5%; }
-  .students-section .section-desc { margin: 0 auto; }
-
-  .conveyor-wrap {
-    margin-top: 3rem; position: relative;
-    /* fade edges */
-  }
-  .conveyor-wrap::before,
-  .conveyor-wrap::after {
-    content: ''; position: absolute; top: 0; bottom: 0; width: 120px; z-index: 2; pointer-events: none;
-  }
-  .conveyor-wrap::before { left: 0; background: linear-gradient(to right, #DDE3EF, transparent); }
-  .conveyor-wrap::after  { right: 0; background: linear-gradient(to left, #DDE3EF, transparent); }
-
-  .conveyor-row { display: flex; gap: 1.2rem; margin-bottom: 1.2rem; width: max-content; }
-  .conveyor-row-1 { animation: scrollLeft 60s linear infinite; }
-  .conveyor-row-2 { animation: scrollLeft 75s linear infinite reverse; }
-
-  @keyframes scrollLeft {
-    0%   { transform: translateX(0); }
-    100% { transform: translateX(-50%); }
-  }
-  .conveyor-row:hover { animation-play-state: paused; }
-
-  .sc-card {
-    background: var(--white);
-    border-radius: 18px; padding: 1.4rem 1.2rem;
-    border: 1px solid #E5E7EB;
-    box-shadow: 0 4px 16px rgba(0,0,0,0.06);
-    display: flex; flex-direction: column; align-items: center;
-    width: 160px; flex-shrink: 0;
-    transition: transform 0.25s, box-shadow 0.25s;
-    cursor: default;
-  }
-  .sc-card:hover { transform: translateY(-5px) scale(1.03); box-shadow: 0 12px 28px rgba(26,86,219,0.15); }
-
-  .sc-photo {
-    width: 72px; height: 72px; border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 1.8rem; font-weight: 900; color: var(--white);
-    margin-bottom: 0.9rem; border: 3px solid var(--white);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-    flex-shrink: 0;
-  }
-  .sc-name { font-size: 0.82rem; font-weight: 700; color: var(--blue-deep); text-align: center; line-height: 1.3; margin-bottom: 0.3rem; }
-  .sc-year { font-size: 0.7rem; color: var(--gray-mid); margin-bottom: 0.7rem; }
-  .sc-score {
-    background: linear-gradient(135deg, var(--blue-main), var(--blue-deep));
-    color: var(--white); font-size: 1.1rem; font-weight: 900;
-    padding: 0.35rem 1rem; border-radius: 100px;
-    letter-spacing: 0.5px;
-  }
-  .sc-score span { font-size: 0.7rem; font-weight: 500; opacity: 0.8; }
-
-  /* ───── CTA ───── */
-  .cta-section {
-    background: linear-gradient(135deg, var(--blue-main) 0%, var(--blue-deep) 100%);
-    text-align: center; padding: 100px 5%;
-  }
-  .cta-section .section-title { color: var(--white); margin-bottom: 1rem; }
-  .cta-section .section-desc { color: rgba(255,255,255,0.75); margin: 0 auto 2.5rem; }
-  .wa-btn {
-    display: inline-flex; align-items: center; gap: 0.8rem;
-    background: #25D366; color: var(--white);
-    text-decoration: none; font-weight: 800; font-size: 1.15rem;
-    padding: 1.1rem 2.5rem; border-radius: 14px;
-    box-shadow: 0 8px 30px rgba(37,211,102,0.4);
-    transition: transform 0.2s, box-shadow 0.2s;
-  }
-  .wa-btn:hover { transform: translateY(-3px); box-shadow: 0 14px 40px rgba(37,211,102,0.5); }
-  .wa-btn svg { width: 28px; height: 28px; }
-  .cta-note { margin-top: 1.5rem; font-size: 0.85rem; color: rgba(255,255,255,0.5); }
-
-  /* ───── FOOTER ───── */
-  footer {
-    background: #0D1B4B !important;
-    padding: 3rem 5% 2rem;
-    font-size: 0.85rem;
-    position: relative;
-  }
-  footer, footer p, footer a, footer div, footer nav, footer span:not(.footer-grad) {
-    -webkit-text-fill-color: unset !important;
-    background-clip: unset !important;
-    -webkit-background-clip: unset !important;
-  }
-  .footer-inner {
-    max-width: 1100px; margin: 0 auto;
-    display: flex; justify-content: space-between; align-items: center;
-    flex-wrap: wrap; gap: 1.5rem;
-    padding-bottom: 2rem;
-    border-bottom: 1px solid rgba(255,255,255,0.12);
-    margin-bottom: 1.5rem;
-  }
-  .footer-logo {
-    font-size: 1.6rem; font-weight: 900;
-    color: #FFFFFF !important;
-    -webkit-text-fill-color: #FFFFFF !important;
-    letter-spacing: -0.5px;
-  }
-  .footer-grad {
-    background: linear-gradient(90deg, #60A5FA, #BFDBFE);
-    -webkit-background-clip: text !important;
-    -webkit-text-fill-color: transparent !important;
-    background-clip: text !important;
-  }
-  .footer-links { display: flex; gap: 2rem; flex-wrap: wrap; }
-  .footer-links a {
-    color: rgba(255,255,255,0.6) !important;
-    -webkit-text-fill-color: rgba(255,255,255,0.6) !important;
-    text-decoration: none; font-size: 0.88rem; font-weight: 500;
-    transition: color 0.2s;
-  }
-  .footer-links a:hover {
-    color: #FFFFFF !important;
-    -webkit-text-fill-color: #FFFFFF !important;
-  }
-  .footer-wa {
-    display: inline-flex; align-items: center; gap: 0.5rem;
-    background: rgba(37,211,102,0.15);
-    border: 1px solid rgba(37,211,102,0.35);
-    color: #4ADE80 !important;
-    -webkit-text-fill-color: #4ADE80 !important;
-    font-size: 0.85rem; font-weight: 600;
-    padding: 0.5rem 1.2rem; border-radius: 100px;
-    text-decoration: none; transition: background 0.2s;
-  }
-  .footer-wa:hover { background: rgba(37,211,102,0.28); }
-  .footer-bottom {
-    text-align: center;
-    color: rgba(255,255,255,0.35) !important;
-    -webkit-text-fill-color: rgba(255,255,255,0.35) !important;
-    font-size: 0.8rem; max-width: 1100px; margin: 0 auto;
-  }
-
-  /* ───── RESPONSIVE ───── */
-  @media (max-width: 768px) {
-    .hero-inner { grid-template-columns: 1fr; gap: 2.5rem; }
-    .code-window { display: none; }
-    .nav-links { display: none; }
-    .stats-bar { gap: 2rem; }
-  }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Infologia — Курс информатики для ЕНТ</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght=400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<!-- NAV -->
-<nav>
-  <div class="nav-logo">Info<span>logia</span></div>
-  <ul class="nav-links">
-    <li><a href="#about">О курсе</a></li>
-    <li><a href="#teachers">Учителя</a></li>
-    <li><a href="#students">Ученики</a></li>
-    <li><a href="#enroll">Записаться</a></li>
-  </ul>
-  <a href="https://wa.me/77000000000" class="nav-cta" target="_blank">Записаться →</a>
-</nav>
+  <nav>
+    <div class="nav-logo">Info<span>logia</span></div>
+    <ul class="nav-links">
+      <li><a href="#about">О курсе</a></li>
+      <li><a href="#teachers">Учителя</a></li>
+      <li><a href="#students">Ученики</a></li>
+      <li><a href="#enroll">Записаться</a></li>
+    </ul>
+    <a href="https://wa.me/77000000000" class="nav-cta" target="_blank">Записаться →</a>
+  </nav>
 
-<!-- HERO -->
-<section class="hero">
-  <div class="hero-inner">
-    <div>
-      <div class="hero-badge">
-        <span class="hero-badge-dot"></span>
-        Набор открыт · 2024–2025
+  <section class="hero">
+    <div class="hero-inner">
+      <div>
+        <div class="hero-badge">
+          <span class="hero-badge-dot"></span>
+          Набор открыт · 2024–2025
+        </div>
+        <h1>Сдай ЕНТ по<br><em>информатике</em><br>на максимум</h1>
+        <p class="hero-sub">Infologia — интенсивный курс подготовки к ЕНТ. Разбираем каждую тему с нуля, решаем реальные задания, добиваемся результата.</p>
+        <div class="hero-btns">
+          <a href="#enroll" class="btn-primary">🚀 Записаться на курс</a>
+          <a href="#about" class="btn-outline">📚 Узнать подробнее</a>
+        </div>
       </div>
-      <h1>Сдай ЕНТ по<br><em>информатике</em><br>на максимум</h1>
-      <p class="hero-sub">Infologia — интенсивный курс подготовки к ЕНТ. Разбираем каждую тему с нуля, решаем реальные задания, добиваемся результата.</p>
-      <div class="hero-btns">
-        <a href="#enroll" class="btn-primary">🚀 Записаться на курс</a>
-        <a href="#about" class="btn-outline">📚 Узнать подробнее</a>
-      </div>
-    </div>
-    <div class="code-window">
-      <div class="code-bar">
-        <div class="code-dot r"></div>
-        <div class="code-dot y"></div>
-        <div class="code-dot g"></div>
-        <div class="code-bar-title">infologia_ent.py</div>
-      </div>
-      <div class="code-body">
-        <div><span class="c-cm"># Подготовка к ЕНТ — Информатика</span></div>
-        <div><span class="c-kw">class</span> <span class="c-fn">Student</span>:</div>
-        <div>&nbsp;&nbsp;<span class="c-kw">def</span> <span class="c-fn">__init__</span>(<span class="c-var">self</span>, <span class="c-var">name</span>):</div>
-        <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="c-var">self</span>.<span class="c-var">score</span> = <span class="c-num">0</span></div>
-        <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="c-var">self</span>.<span class="c-var">course</span> = <span class="c-str">"Infologia"</span></div>
-        <div>&nbsp;</div>
-        <div>&nbsp;&nbsp;<span class="c-kw">def</span> <span class="c-fn">study</span>(<span class="c-var">self</span>):</div>
-        <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="c-var">self</span>.<span class="c-var">score</span> <span class="c-op">+=</span> <span class="c-num">140</span></div>
-        <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="c-kw">return</span> <span class="c-str">"Поступил! 🎓"</span></div>
-        <div>&nbsp;</div>
-        <div><span class="c-var">ali</span> = <span class="c-fn">Student</span>(<span class="c-str">"Али"</span>)</div>
-        <div><span class="c-fn">print</span>(<span class="c-var">ali</span>.<span class="c-fn">study</span>())</div>
-        <div><span class="c-cm"># → Поступил! 🎓</span></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- STATS -->
-<div class="stats-bar">
-  <div class="stat">
-    <div class="stat-num">300+</div>
-    <div class="stat-label">Выпускников</div>
-  </div>
-  <div class="stat">
-    <div class="stat-num">95%</div>
-    <div class="stat-label">Сдали ЕНТ успешно</div>
-  </div>
-  <div class="stat">
-    <div class="stat-num">140</div>
-    <div class="stat-label">Средний балл по информатике</div>
-  </div>
-  <div class="stat">
-    <div class="stat-num">3 мес</div>
-    <div class="stat-label">Курс подготовки</div>
-  </div>
-</div>
-
-<!-- ABOUT -->
-<section id="about" class="about-section">
-  <div class="center">
-    <div class="section-label">О курсе</div>
-    <div class="section-title">Всё, что нужно для<br>максимального балла</div>
-    <p class="section-desc">Полная программа ЕНТ по информатике — от базовых понятий до сложных алгоритмов и баз данных.</p>
-  </div>
-  <div class="about-list">
-
-    <div class="about-item">
-      <div class="about-num">01</div>
-      <div class="about-body">
-        <div class="about-emoji">💻</div>
-        <h3>Программирование</h3>
-        <p>Pascal и Python с нуля до уровня ЕНТ. Разбираем алгоритмы, циклы, условия, функции и массивы на реальных задачах из прошлых экзаменов.</p>
-      </div>
-    </div>
-
-    <div class="about-item">
-      <div class="about-num about-num-alt">02</div>
-      <div class="about-body">
-        <div class="about-emoji">🗄️</div>
-        <h3>Базы данных</h3>
-        <p>Реляционные базы, SQL-запросы, таблицы и связи между ними. Это одна из самых частых тем на ЕНТ — разберём до полного понимания.</p>
-      </div>
-    </div>
-
-    <div class="about-item">
-      <div class="about-num about-num-alt2">03</div>
-      <div class="about-body">
-        <div class="about-emoji">🌐</div>
-        <h3>Сети и системы</h3>
-        <p>Компьютерные сети, протоколы, IP-адресация, операционные системы и архитектура ПК — всё по программе ЕНТ с примерами заданий.</p>
-      </div>
-    </div>
-
-    <div class="about-item">
-      <div class="about-num">04</div>
-      <div class="about-body">
-        <div class="about-emoji">📊</div>
-        <h3>Логика и алгоритмы</h3>
-        <p>Блок-схемы, булева алгебра, системы счисления — разбираем каждую тему на практике. После курса решаешь эти задания за секунды.</p>
-      </div>
-    </div>
-
-    <div class="about-item">
-      <div class="about-num about-num-alt">05</div>
-      <div class="about-body">
-        <div class="about-emoji">✏️</div>
-        <h3>Пробные ЕНТ</h3>
-        <p>Еженедельные пробники в реальных условиях — таймер, бланк, настоящие вопросы. После каждого — разбор всех ошибок вместе с учителем.</p>
-      </div>
-    </div>
-
-    <div class="about-item">
-      <div class="about-num about-num-alt2">06</div>
-      <div class="about-body">
-        <div class="about-emoji">🤝</div>
-        <h3>Поддержка 24/7</h3>
-        <p>WhatsApp-чат с учителями, разбор домашних заданий и ответы на любые вопросы — в любое время. Ты никогда не остаёшься один с непонятной темой.</p>
-      </div>
-    </div>
-
-  </div>
-</section>
-
-<!-- TEACHERS -->
-<section id="teachers" class="teachers-bg">
-  <div class="center">
-    <div class="section-label">Наши учителя</div>
-    <div class="section-title">Опытные педагоги —<br>реальные результаты</div>
-    <p class="section-desc">Наши преподаватели — специалисты с опытом подготовки сотен учеников к ЕНТ.</p>
-  </div>
-
-  <div class="teacher-slider">
-
-    <!-- LEFT: photo card (stays, content swaps) -->
-    <div class="ts-photo-wrap">
-      <div class="ts-photo-card">
-        <div class="ts-avatar" id="tsAvatar">А</div>
-        <div class="ts-name" id="tsName">Асель Нурланова</div>
-        <div class="ts-role" id="tsRole">Главный преподаватель · Информатика</div>
-        <div class="ts-dots">
-          <div class="ts-dot active" onclick="goTo(0)"></div>
-          <div class="ts-dot" onclick="goTo(1)"></div>
-          <div class="ts-dot" onclick="goTo(2)"></div>
+      <div class="code-window">
+        <div class="code-bar">
+          <div class="code-dot r"></div>
+          <div class="code-dot y"></div>
+          <div class="code-dot g"></div>
+          <div class="code-bar-title">infologia_ent.py</div>
+        </div>
+        <div class="code-body">
+          <div><span class="c-cm"># Подготовка к ЕНТ — Информатика</span></div>
+          <div><span class="c-kw">class</span> <span class="c-fn">Student</span>:</div>
+          <div>&nbsp;&nbsp;<span class="c-kw">def</span> <span class="c-fn">__init__</span>(<span class="c-var">self</span>, <span class="c-var">name</span>):</div>
+          <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="c-var">self</span>.<span class="c-var">score</span> = <span class="c-num">0</span></div>
+          <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="c-var">self</span>.<span class="c-var">course</span> = <span class="c-str">"Infologia"</span></div>
+          <div>&nbsp;</div>
+          <div>&nbsp;&nbsp;<span class="c-kw">def</span> <span class="c-fn">study</span>(<span class="c-var">self</span>):</div>
+          <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="c-var">self</span>.<span class="c-var">score</span> <span class="c-op">+=</span> <span class="c-num">140</span></div>
+          <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="c-kw">return</span> <span class="c-str">"Поступил! 🎓"</span></div>
+          <div>&nbsp;</div>
+          <div><span class="c-var">ali</span> = <span class="c-fn">Student</span>(<span class="c-str">"Али"</span>)</div>
+          <div><span class="c-fn">print</span>(<span class="c-var">ali</span>.<span class="c-fn">study</span>())</div>
+          <div><span class="c-cm"># → Поступил! 🎓</span></div>
         </div>
       </div>
     </div>
+  </section>
 
-    <!-- RIGHT: sliding info panels -->
-    <div class="ts-info-wrap">
-      <div class="ts-info-track" id="tsTrack">
+  <div class="stats-bar">
+    <div class="stat">
+      <div class="stat-num">300+</div>
+      <div class="stat-label">Выпускников</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">95%</div>
+      <div class="stat-label">Сдали ЕНТ успешно</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">140</div>
+      <div class="stat-label">Средний балл по информатике</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">3 мес</div>
+      <div class="stat-label">Курс подготовки</div>
+    </div>
+  </div>
 
-        <!-- Panel 1 -->
-        <div class="ts-info-panel">
-          <div class="ts-exp-label">О преподавателе</div>
-          <p class="ts-bio">7 лет опыта преподавания информатики. Выпускница МУИТ по специальности «Программная инженерия». Влюблена в алгоритмы и умеет объяснить даже самые сложные темы простым языком.</p>
-          <div class="ts-stats">
-            <div class="ts-stat-item">
-              <div class="ts-stat-num">150+</div>
-              <div class="ts-stat-lbl">Учеников подготовила</div>
-            </div>
-            <div class="ts-stat-item">
-              <div class="ts-stat-num">7 лет</div>
-              <div class="ts-stat-lbl">Опыта преподавания</div>
-            </div>
-          </div>
-          <div class="ts-tags">
-            <span class="tag">Pascal</span>
-            <span class="tag">Python</span>
-            <span class="tag">Алгоритмы</span>
-            <span class="tag">ЕНТ эксперт</span>
-          </div>
+  <section id="about" class="about-section">
+    <div class="center">
+      <div class="section-label">О курсе</div>
+      <div class="section-title">Всё, что нужно для<br>максимального балла</div>
+      <p class="section-desc">Полная программа ЕНТ по информатике — от базовых понятий до сложных алгоритмов и баз данных.</p>
+    </div>
+    <div class="about-list">
+      <div class="about-item">
+        <div class="about-num">01</div>
+        <div class="about-body">
+          <div class="about-emoji">💻</div>
+          <h3>Программирование</h3>
+          <p>Pascal и Python с нуля до уровня ЕНТ. Разбираем алгоритмы, циклы, условия, функции и массивы на реальных задачах из прошлых экзаменов.</p>
         </div>
-
-        <!-- Panel 2 -->
-        <div class="ts-info-panel">
-          <div class="ts-exp-label">О преподавателе</div>
-          <p class="ts-bio">5 лет практики в IT и преподавании. Специалист по алгоритмам и структурам данных. Работал в крупных казахстанских IT-компаниях и знает, что реально нужно для поступления и карьеры.</p>
-          <div class="ts-stats">
-            <div class="ts-stat-item">
-              <div class="ts-stat-num">100+</div>
-              <div class="ts-stat-lbl">Учеников с максимум</div>
-            </div>
-            <div class="ts-stat-item">
-              <div class="ts-stat-num">5 лет</div>
-              <div class="ts-stat-lbl">В IT и педагогике</div>
-            </div>
-          </div>
-          <div class="ts-tags">
-            <span class="tag">SQL</span>
-            <span class="tag">Сети</span>
-            <span class="tag">Логика</span>
-            <span class="tag">Структуры данных</span>
-          </div>
-        </div>
-
-        <!-- Panel 3 -->
-        <div class="ts-info-panel">
-          <div class="ts-exp-label">О преподавателе</div>
-          <p class="ts-bio">Педагог-методист с 4-летним стажем. Разрабатывает авторские материалы и следит за прогрессом каждого ученика индивидуально. Организует пробные ЕНТ в реальных условиях.</p>
-          <div class="ts-stats">
-            <div class="ts-stat-item">
-              <div class="ts-stat-num">80+</div>
-              <div class="ts-stat-lbl">Учеников курировала</div>
-            </div>
-            <div class="ts-stat-item">
-              <div class="ts-stat-num">4 года</div>
-              <div class="ts-stat-lbl">Методической работы</div>
-            </div>
-          </div>
-          <div class="ts-tags">
-            <span class="tag">Тесты</span>
-            <span class="tag">Методика</span>
-            <span class="tag">Поддержка</span>
-            <span class="tag">Индивидуальный подход</span>
-          </div>
-        </div>
-
       </div>
-
-      <!-- Arrows -->
-      <div class="ts-arrows">
-        <div class="ts-arrow" onclick="prevTeacher()">←</div>
-        <div class="ts-arrow" onclick="nextTeacher()">→</div>
+      <div class="about-item">
+        <div class="about-num about-num-alt">02</div>
+        <div class="about-body">
+          <div class="about-emoji">🗄️</div>
+          <h3>Базы данных</h3>
+          <p>Реляционные базы, SQL-запросы, таблицы и связи между ними. Это одна из самых частых тем на ЕНТ — разберём до полного понимания.</p>
+        </div>
+      </div>
+      <div class="about-item">
+        <div class="about-num about-num-alt2">03</div>
+        <div class="about-body">
+          <div class="about-emoji">🌐</div>
+          <h3>Сети и системы</h3>
+          <p>Компьютерные сети, протоколы, IP-адресация, операционные системы и архитектура ПК — всё по программе ЕНТ с примерами заданий.</p>
+        </div>
+      </div>
+      <div class="about-item">
+        <div class="about-num">04</div>
+        <div class="about-body">
+          <div class="about-emoji">📊</div>
+          <h3>Логика и алгоритмы</h3>
+          <p>Блок-схемы, булева алгебра, системы счисления — разбираем каждую тему на практике. После курса решаешь эти задания за секунды.</p>
+        </div>
+      </div>
+      <div class="about-item">
+        <div class="about-num about-num-alt">05</div>
+        <div class="about-body">
+          <div class="about-emoji">✏️</div>
+          <h3>Пробные ЕНТ</h3>
+          <p>Еженедельные пробники в реальных условиях — таймер, бланк, настоящие вопросы. После каждого — разбор всех ошибок вместе с учителем.</p>
+        </div>
+      </div>
+      <div class="about-item">
+        <div class="about-num about-num-alt2">06</div>
+        <div class="about-body">
+          <div class="about-emoji">🤝</div>
+          <h3>Поддержка 24/7</h3>
+          <p>WhatsApp-чат с учителями, разбор домашних заданий и ответы на любые вопросы — в любое время. Ты никогда не остаёшься один с непонятной темой.</p>
+        </div>
       </div>
     </div>
+  </section>
 
-  </div>
-</section>
+  <section id="teachers" class="teachers-bg">
+    <div class="center">
+      <div class="section-label">Наши учителя</div>
+      <div class="section-title">Опытные педагоги —<br>реальные результаты</div>
+      <p class="section-desc">Наши преподаватели — специалисты с опытом подготовки сотен учеников к ЕНТ.</p>
+    </div>
+    <div class="teacher-slider">
+      <div class="ts-photo-wrap">
+        <div class="ts-photo-card">
+          <img src="teacher1.jpg" alt="Учитель" class="ts-card-bg-img" id="tsAvatarImg">
+          
+          <div class="ts-dots">
+            <div class="ts-dot active" onclick="goTo(0)"></div>
+            <div class="ts-dot" onclick="goTo(1)"></div>
+            <div class="ts-dot" onclick="goTo(2)"></div>
+          </div>
+        </div>
+      </div>
+      <div class="ts-info-wrap">
+        <div class="ts-info-track" id="tsTrack">
+          <div class="ts-info-panel">
+            <div class="ts-exp-label">О преподавателе</div>
+            <p class="ts-bio">7 лет опыта преподавания информатики. Выпускница МУИТ по специальности «Программная инженерия». Влюблена в алгоритмы и умеет объяснить даже самые сложные темы простым языком.</p>
+            <div class="ts-stats">
+              <div class="ts-stat-item">
+                <div class="ts-stat-num">150+</div>
+                <div class="ts-stat-lbl">Учеников подготовила</div>
+              </div>
+              <div class="ts-stat-item">
+                <div class="ts-stat-num">7 лет</div>
+                <div class="ts-stat-lbl">Опыта преподавания</div>
+              </div>
+            </div>
+            <div class="ts-tags">
+              <span class="tag">Pascal</span>
+              <span class="tag">Python</span>
+              <span class="tag">Алгоритмы</span>
+              <span class="tag">ЕНТ эксперт</span>
+            </div>
+          </div>
+          <div class="ts-info-panel">
+            <div class="ts-exp-label">О преподавателе</div>
+            <p class="ts-bio">5 лет практики в IT и преподавании. Специалист по алгоритмам и структурам данных. Работал в крупных казахстанских IT-компаниях и знает, что реально нужно для поступления и карьеры.</p>
+            <div class="ts-stats">
+              <div class="ts-stat-item">
+                <div class="ts-stat-num">100+</div>
+                <div class="ts-stat-lbl">Учеников с максимум</div>
+              </div>
+              <div class="ts-stat-item">
+                <div class="ts-stat-num">5 лет</div>
+                <div class="ts-stat-lbl">В IT и педагогике</div>
+              </div>
+            </div>
+            <div class="ts-tags">
+              <span class="tag">SQL</span>
+              <span class="tag">Сети</span>
+              <span class="tag">Логика</span>
+              <span class="tag">Структуры данных</span>
+            </div>
+          </div>
+          <div class="ts-info-panel">
+            <div class="ts-exp-label">О преподавателе</div>
+            <p class="ts-bio">Педагог-методист с 4-летним стажем. Разрабатывает авторские материалы и следит за прогрессом каждого ученика индивидуально. Организует пробные ЕНТ в реальных условиях.</p>
+            <div class="ts-stats">
+              <div class="ts-stat-item">
+                <div class="ts-stat-num">80+</div>
+                <div class="ts-stat-lbl">Учеников курировала</div>
+              </div>
+              <div class="ts-stat-item">
+                <div class="ts-stat-num">4 года</div>
+                <div class="ts-stat-lbl">Методической работы</div>
+              </div>
+            </div>
+            <div class="ts-tags">
+              <span class="tag">Тесты</span>
+              <span class="tag">Методика</span>
+              <span class="tag">Поддержка</span>
+              <span class="tag">Индивидуальный подход</span>
+            </div>
+          </div>
+        </div>
+        <div class="ts-arrows">
+          <div class="ts-arrow" onclick="prevTeacher()">←</div>
+          <div class="ts-arrow" onclick="nextTeacher()">→</div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-<!-- STUDENTS -->
-<section id="students" class="students-section">
-  <div class="center">
-    <div class="section-label">Наши ученики</div>
-    <div class="section-title">Реальные результаты<br>наших выпускников</div>
-    <p class="section-desc">Сотни учеников уже сдали ЕНТ по информатике после нашего курса. Вот их результаты.</p>
-  </div>
-  <div class="conveyor-wrap">
-    <div class="conveyor-row conveyor-row-1" id="row1"></div>
-    <div class="conveyor-row conveyor-row-2" id="row2"></div>
-  </div>
-</section>
+  <section id="students" class="students-section">
+    <div class="center">
+      <div class="section-label">Наши ученики</div>
+      <div class="section-title">Реальные результаты<br>наших выпускников</div>
+      <p class="section-desc">Сотни учеников уже сдали ЕНТ по информатике после нашего курса. Вот их результаты.</p>
+    </div>
+    <div class="conveyor-wrap">
+      <div class="conveyor-row conveyor-row-1" id="row1"></div>
+      <div class="conveyor-row conveyor-row-2" id="row2"></div>
+    </div>
+  </section>
 
-<!-- CTA / ENROLL -->
-<section id="enroll" class="cta-section">
-  <div class="section-label" style="color:var(--blue-light)">Записаться на курс</div>
-  <div class="section-title">Готов сдать ЕНТ<br>на максимум?</div>
-  <p class="section-desc">Напиши нам в WhatsApp прямо сейчас — расскажем о расписании, стоимости и ответим на все вопросы.</p>
-  <a href="https://wa.me/77052862731?text=Сәлем!%20Infologia%20курсына%20жазылғым%20келеді" target="_blank" class="wa-btn">
-    <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
-    </svg>
-    Записаться через WhatsApp
-  </a>
-  <p class="cta-note">Ответим в течение нескольких минут · Бесплатная консультация</p>
-</section>
-
-<!-- FOOTER -->
-<footer>
-  <div class="footer-inner">
-    <div class="footer-logo">Info<span class="footer-grad">logia</span></div>
-    <nav class="footer-links">
-      <a href="#about">О курсе</a>
-      <a href="#teachers">Учителя</a>
-      <a href="#students">Ученики</a>
-      <a href="#enroll">Записаться</a>
-    </nav>
-    <a href="https://wa.me/77052862731" target="_blank" class="footer-wa">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
-      WhatsApp
+  <section id="enroll" class="cta-section">
+    <div class="section-label" style="color:var(--blue-light)">Записаться на курс</div>
+    <div class="section-title">Готов сдать ЕНТ<br>на максимум?</div>
+    <p class="section-desc">Напиши нам в WhatsApp прямо сейчас — расскажем о расписании, стоимости и ответим на все вопросы.</p>
+    <a href="https://wa.me/77052862731?text=Сәлем!%20Infologia%20курсына%20жазылғым%20келеді" target="_blank" class="wa-btn">
+      <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+      </svg>
+      Записаться через WhatsApp
     </a>
-  </div>
-  <div class="footer-bottom">© 2024 Infologia — Курс подготовки к ЕНТ по информатике. Все права защищены.</div>
-</footer>
+    <p class="cta-note">Ответим в течение нескольких минут · Бесплатная консультация</p>
+  </section>
 
-<script>
-  // ── STUDENT CONVEYOR ──
-  const students = [
-    {name:'Нартай Айбек.',    year:2026, score:138, color:'#1A56DB'},
-    {name:'Сайлаубай Медет.',    year:2026, score:130, color:'#7C3AED'},
-    {name:'Ыббрагимова Айкенже.',     year:2026, score:129, color:'#059669'},
-    {name:'Усенбай Улболсын.',   year:2026, score:129, color:'#DC2626'},
-    {name:'Елемес Айшагул.',     year:2026, score:125, color:'#D97706'},
-    {name:'Ашурбеков Диярбек.',   year:2026, score:105, color:'#0891B2'},
-    {name:'Сагидолла Бибысара.',     year:2024, score:100, color:'#7C3AED'},
-    {name:'Камила Н.',    year:2023, score:139, color:'#1A56DB'},
-    {name:'Арман С.',     year:2024, score:134, color:'#059669'},
-    {name:'Жансая М.',    year:2024, score:140, color:'#DC2626'},
-    {name:'Нурлан Т.',    year:2023, score:136, color:'#D97706'},
-    {name:'Диана К.',     year:2024, score:138, color:'#0891B2'},
-    {name:'Асхат Р.',     year:2023, score:133, color:'#1A56DB'},
-    {name:'Малика Е.',    year:2024, score:140, color:'#7C3AED'},
-    {name:'Бекзат И.',    year:2024, score:137, color:'#059669'},
-    {name:'Айнур Б.',     year:2023, score:135, color:'#DC2626'},
-    {name:'Серик Д.',     year:2024, score:139, color:'#D97706'},
-    {name:'Толганай О.',  year:2024, score:136, color:'#0891B2'},
-    {name:'Ринат М.',     year:2023, score:134, color:'#1A56DB'},
-    {name:'Гульнар А.',   year:2024, score:140, color:'#7C3AED'},
-    {name:'Адиль К.',     year:2024, score:138, color:'#059669'},
-    {name:'Перизат Ж.',   year:2023, score:137, color:'#DC2626'},
-    {name:'Руслан С.',    year:2024, score:135, color:'#D97706'},
-    {name:'Аяулым Т.',    year:2024, score:140, color:'#0891B2'},
-    {name:'Женис Б.',     year:2023, score:133, color:'#1A56DB'},
-    {name:'Сымбат Н.',    year:2024, score:139, color:'#7C3AED'},
-    {name:'Данияр К.',    year:2024, score:136, color:'#059669'},
-    {name:'Аселя М.',     year:2023, score:138, color:'#DC2626'},
-    {name:'Болат Р.',     year:2024, score:134, color:'#D97706'},
-    {name:'Нурия О.',     year:2024, score:140, color:'#0891B2'},
-    {name:'Ерасыл А.',    year:2023, score:137, color:'#1A56DB'},
-    {name:'Динара Ж.',    year:2024, score:135, color:'#7C3AED'},
-    {name:'Санжар И.',    year:2024, score:139, color:'#059669'},
-    {name:'Меруерт Д.',   year:2023, score:136, color:'#DC2626'},
-    {name:'Нурдаулет С.', year:2024, score:140, color:'#D97706'},
-    {name:'Ботагоз Т.',   year:2024, score:133, color:'#0891B2'},
-    {name:'Аблай М.',     year:2023, score:138, color:'#1A56DB'},
-    {name:'Карина Е.',    year:2024, score:137, color:'#7C3AED'},
-    {name:'Тоқтамыс Б.',  year:2024, score:135, color:'#059669'},
-    {name:'Жулдыз А.',    year:2023, score:140, color:'#DC2626'},
-    {name:'Ильяс Н.',     year:2024, score:134, color:'#D97706'},
-    {name:'Айсана Р.',    year:2024, score:139, color:'#0891B2'},
-    {name:'Бауыржан К.',  year:2023, score:136, color:'#1A56DB'},
-    {name:'Лейла С.',     year:2024, score:140, color:'#7C3AED'},
-    {name:'Мирас Т.',     year:2024, score:138, color:'#059669'},
-    {name:'Сания О.',     year:2023, score:135, color:'#DC2626'},
-    {name:'Азамат Д.',    year:2024, score:137, color:'#D97706'},
-    {name:'Акмарал Ж.',   year:2024, score:140, color:'#0891B2'},
-    {name:'Нысан Б.',     year:2023, score:133, color:'#1A56DB'},
-    {name:'Раушан М.',    year:2024, score:139, color:'#7C3AED'},
-  ];
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-logo">Info<span class="footer-grad">logia</span></div>
+      <nav class="footer-links">
+        <a href="#about">О курсе</a>
+        <a href="#teachers">Учителя</a>
+        <a href="#students">Ученики</a>
+        <a href="#enroll">Записаться</a>
+      </nav>
+      <a href="https://wa.me/77052862731" target="_blank" class="footer-wa">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+      </a>
+    </div>
+    <div class="footer-bottom">
+      &copy; 2026 Infologia. Все права защищены.
+    </div>
+  </footer>
 
-  function makeCard(s) {
-    const initial = s.name.charAt(0);
-    return `<div class="sc-card">
-      <div class="sc-photo" style="background:${s.color}">${initial}</div>
-      <div class="sc-name">${s.name}</div>
-      <div class="sc-year">ЕНТ ${s.year}</div>
-      <div class="sc-score">${s.score} <span>балл</span></div>
-    </div>`;
-  }
-
-  // Row 1: first 25, Row 2: last 25 — duplicated for seamless loop
-  const row1El = document.getElementById('row1');
-  const row2El = document.getElementById('row2');
-  const half1 = students.slice(0, 25);
-  const half2 = students.slice(25);
-  // duplicate for infinite scroll
-  const html1 = [...half1, ...half1].map(makeCard).join('');
-  const html2 = [...half2, ...half2].map(makeCard).join('');
-  row1El.innerHTML = html1;
-  row2El.innerHTML = html2;
-
-  // ── TEACHER SLIDER ──
-  const teachers = [
-    { initial: 'А', name: 'Асель Нурланова',  role: 'Главный преподаватель · Информатика' },
-    { initial: 'Д', name: 'Данияр Сейткали',  role: 'Преподаватель · Программирование' },
-    { initial: 'М', name: 'Мадина Ахметова',  role: 'Куратор · Методист' },
-  ];
-  let current = 0;
-  let autoTimer;
-
-  const track  = document.getElementById('tsTrack');
-  const avatar = document.getElementById('tsAvatar');
-  const tName  = document.getElementById('tsName');
-  const tRole  = document.getElementById('tsRole');
-  const dots   = document.querySelectorAll('.ts-dot');
-
-  function goTo(idx) {
-    current = (idx + teachers.length) % teachers.length;
-    // Slide the right panel
-    track.style.transform = `translateX(-${current * 33.333}%)`;
-    // Swap left card content
-    const t = teachers[current];
-    avatar.classList.remove('pop');
-    void avatar.offsetWidth; // reflow to restart animation
-    avatar.classList.add('pop');
-    avatar.textContent = t.initial;
-    tName.textContent  = t.name;
-    tRole.textContent  = t.role;
-    // Dots
-    dots.forEach((d, i) => d.classList.toggle('active', i === current));
-    // Reset auto
-    clearInterval(autoTimer);
-    autoTimer = setInterval(() => goTo(current + 1), 4500);
-  }
-
-  function nextTeacher() { goTo(current + 1); }
-  function prevTeacher() { goTo(current - 1); }
-
-  // Auto-play
-  autoTimer = setInterval(() => goTo(current + 1), 4500);
-
-  // ── SCROLL REVEAL ──
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        e.target.style.opacity = '1';
-        e.target.style.transform = 'translateY(0)';
-      }
-    });
-  }, { threshold: 0.1 });
-
-  document.querySelectorAll('.about-card, .review-card').forEach(el => {
-    el.style.opacity = '0';
-    el.style.transform = 'translateY(24px)';
-    el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-    observer.observe(el);
-  });
-</script>
+  <script src="script.js"></script>
 </body>
 </html>
