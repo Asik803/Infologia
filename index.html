@@ -4,20 +4,23 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Infologia — Курс информатики для ЕНТ</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght=400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
   <nav>
     <div class="nav-logo">Info<span>logia</span></div>
-    <ul class="nav-links">
-      <li><a href="#about">О курсе</a></li>
-      <li><a href="#teachers">Учителя</a></li>
-      <li><a href="#students">Ученики</a></li>
-      <li><a href="#enroll">Записаться</a></li>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#about" onclick="closeMenu()">О курсе</a></li>
+      <li><a href="#teachers" onclick="closeMenu()">Учителя</a></li>
+      <li><a href="#students" onclick="closeMenu()">Ученики</a></li>
+      <li><a href="#enroll" onclick="closeMenu()">Записаться</a></li>
     </ul>
     <a href="https://wa.me/77000000000" class="nav-cta" target="_blank">Записаться →</a>
+    <button class="nav-burger" id="navBurger" onclick="toggleMenu()" aria-label="Меню">
+      <span></span><span></span><span></span>
+    </button>
   </nav>
 
   <section class="hero">
@@ -147,7 +150,13 @@
       <div class="ts-photo-wrap">
         <div class="ts-photo-card">
           <img src="teacher1.jpg" alt="Учитель" class="ts-card-bg-img" id="tsAvatarImg">
-          
+
+          <!-- Имя учителя поверх фото -->
+          <div class="ts-name-overlay">
+            <div class="ts-overlay-name" id="tsOverlayName">Асель Нурланова</div>
+            <div class="ts-overlay-role" id="tsOverlayRole">Информатика · 7 лет опыта</div>
+          </div>
+
           <div class="ts-dots">
             <div class="ts-dot active" onclick="goTo(0)"></div>
             <div class="ts-dot" onclick="goTo(1)"></div>
